@@ -1,0 +1,66 @@
+Git_instructions part 2
+
+
+0) listing all the config key-values
+		git config -l
+	 (or) git config --list
+
+1) Cloning a remote repository into our machine (i.e.make a copy of a remote repository in your local machine)
+		cd desired-folder-location
+		git clone https://github.com/udacity/course-git-blog-project
+
+2) Creating any file from git console
+		touch "<pwd>/additional filepath/filename"
+
+3) ignoring files in local repo:
+		- specify filepaths or directorypaths in ".gitignore"  in order to omit them from being tracked by git
+		- creating ".gitignore" file in the local directory
+				touch .gitignore 
+
+4) knowing changes in the local repo:
+		git status 
+
+5) knowing changes done in a specific file:
+		git diff myfile.html
+
+6) knowing previous commits i.e. commit history
+		- we can find a long funky number called Commit-ID associated with each commit
+		git log					(shows entire commit history)
+		git log -5				(shows only past 5 commits)
+
+7) knowing the exact changes done in a given commit
+		step 1:
+			you need to retrieve the [commitID] using "git log" and the write the following command.
+		step 2:
+			the following command displays the modified lines of the files commited on the specifed commitId
+				git show [commitID]			
+			
+8) Funky Scenario for better perspective:
+		1. set of changes done in "file1". And the file1 is commited.
+		2. Now, if we want to add additional changes to "file1", but we do not want to create another commit.
+		3. In other words, we want the second set of changes done to "file1" to reflect directly in the latest(last/previous) commit done (HEAD pointing commit), that too without any change in the existing commit message.
+		4. Please follow the below steps to acheive it.
+			git add file1
+			git commit --amend
+		5. A VI editor appears after the second command. We simply have to save & exit it 
+					<ESC key>
+					:wq
+
+9) Terminology & Trivia:
+		- There are three places of Git where file changes can reside.
+			1. Working Directory
+		   /		|
+		  /			|	[adding]
+		 /		   \|/
+		/	2. Staging Directory
+	   /|\			|
+		|			|	[Commiting]
+		|		   \|/				
+		|	3. Repository
+		|			|
+		|			|	[checkout]
+		|___________|
+
+		- visit the following link for more info:
+				https://www.javatpoint.com/git-index#:~:text=The%20Git%20index%20is%20a,you%20want%20to%20commit%20together.&text=There%20are%20three%20places%20in,staging%20area%2C%20and%20the%20repository
+

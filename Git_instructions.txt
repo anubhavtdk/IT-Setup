@@ -1,0 +1,184 @@
+Git SETUP Instructions
+
+NOTE: repo = repository
+
+	Step 1: CREATING FOLDER IN LOCAL MACHINE
+		- Create a Folder/Directory, which u plan to use as a local-repo  in your local machine.
+			pwd
+			mkdir BaseProj
+
+
+	Step 2: INITIALIZING THE LOCAL-REPO IN DESIRED FOLDER or DESIRED LOCATION
+
+		- Enter into the directory created
+			cd BaseProj
+		- Initialize the git in any directory, makes it a local-repo
+			git init
+
+
+	Step 3: CREATING A REMOTE-REPO (in GitHub)
+		- Github is where most of the free-loving-folks to create their remote-repos.
+		- We are free to choose any other remote-repo instead of GitHub. But, since its popular & free, lets go Github!!!
+		- Login to GitHub account (or) Create one if you are new.
+		- Copy the email Id of your GitHub and paste in local machine's git bash as shown below & execute
+						git config --global user.email myemail@gmail.com 		
+													(make sure that the email is created in github account (or given access to the github account's repo))
+												
+		- you may set user.username or user.name but it doesn't hold any reverence in integrating with github
+						git config --global user.username anubhavlocal			
+													(a config username/name can be anything, nothing to do with github username)
+	
+	Step 4: LINKING LOCAL-REPO WITH THE REMOTE-REPO
+
+		- Create a New Repository in GitHub, by clicking on the top-right "+" button beside your profile icon.
+		- Now, go to "Code" section in the main page of your GitHub account.
+		- Above the file-structure (in top right corner), there's a green button "Code". Click on that to see a small dialog box.
+		- In the dialog box, select "HTTPS" section in order to find a link/url that resembles the following.
+						https://github.com/anubhavtdk/BaseProj.git
+		- Copy that link/url & paste it in our local machine's git-bash (in local-repo) in the following manner & execute
+						git remote add [remote-alias] https://github.com/anubhavtdk/BaseProj.git
+
+
+
+	Step 5: INITIAL-COMIT & PUSH FROM LOCAL-REPO TO REMOTE-REPO
+		 I) Staging & Unstaging:
+		 	- Two Arenas:
+		 			 - Unstaged arena 	(Changes in here are referred to as "untracked changes")
+		 			 - Staged arena 	(Changes in here are referred to as "tracked changes")
+		 	- When changes are done in any of the files in local repo, by default the changes exist in "Unstaged arena" & called "Untracked changes"
+			 	i) Staging:
+		 			- In order to commit, we must move the "untracked changes" to "Staged arena" first, in order to make them "tracked changes".
+		 			- We call this above step as "Staging".
+			 		- Tranfering the "untracked changes" into "Staged arena", also referred as "adding to track"
+				 	- Several ways to stage are stated below.
+						git add first_test.txt			(for specific file)
+						git add file1 file2				(for multiple files at once)
+						git add *.txt					(for all text files changed)
+						git add * 						(for all the files changed)
+						git add . 						(for all the files changed i.e same as the previous)
+
+		 		ii) Unstaging:
+		 			- For transfering the changes from Staged arena back to Unstaged arena.
+		 			- Sometimes, we may require to refrain from committing the staged changes and fall back instead. 
+		 			- So, we unstage the staged changes (instead of commiting). This can be done in several ways shown below.
+		 			- write & execute the following command to unstage (AKA un-track or un-add) the staged file(s).
+		 				git restore --staged file1 file2	(unstage the specified files. But exist in unstaged arena)
+		 				git restore file1 file2 			
+		 						(this removes the changes done in specified files completely ...i.e. all changes gone...pufff!)
+		 						(note that file1 & file2 changes are untracked i.e. present in unstaged arena)
+		 				git reset .							(unstaging all the staged files)
+		 				git rm -cached first_test.txt 		(for specific file)
+		 				git rm -cached file1 file2			(for multiple files at once)
+		 				git rm -r --cached .				(all the files in staged/tracked move to unstaged/untracked arena)
+		 				git rm --cached *					(all the files in staged/tracked move to unstaged/untracked arena)
+
+		 				git reset --hard 					(DONT!!! Deletes ALL the files and bring you to level zero)
+		 	
+		 	NOTE:
+		 		If we made changes in a file in the local repo that haven't been staged yet.
+		 		Then, we can remove those changes by following command. (as in permanently remove the untracked changes)
+		 				git reset --hard HEAD^ 					() 
+
+
+
+		 II) Commiting:
+			 	- several ways to commit staged changes are stated below
+						git commit -m "commit message" first_test			(for a specific file)
+						git commit -m "commit message" file1 file2			(for multiple files at once)
+						git commit -m "commit message" 	(for all the files & a "success msg" to be printed after completion)
+
+				- Undoing Committed changes:
+					- Removing the changes entirely from existence (hard mode)
+						git reset --hard HEAD^		 
+								(rolls-back the commit done to which the HEAD is pointing (i.e. HEAD generally points to latest commit))
+								(in other words,the latest commit to which  HEAD is pointing, gets removed i.e. all the changes done in the last commit are gone)
+								(HEAD shifts down & points to penultimate commit instead of the ultimate/latest commit)
+					- Removing just the changes of latest-commit(HEAD pointing commit) from the commited-arena, but retaining the changes in Staged-arena
+						git reset  --soft [commitID of penultimate commit]
+		III) Pushing:
+				- this is the final step in moving the commited code to the Remote repo i.e. GitHub.
+				- Make sure that you have a github account with a freshly created Repository (aka our remote repo)
+					step 1: 
+						- check if there's any remote repo already set to our local repo
+							git remote -v 				(lists all the remotes associated with our local repo)
+					step 2:
+						- add a remote repo (aka remote) to our local repo by using this command
+							git remote add [remote-alias] https://github.com/anubhavtdk/react_practice_1.git
+						- In general, the remote-alias historically set as "origin", but its not a rule. 
+						- The name of the remote-alias is user's choice.
+						- But make sure that the URL is pointing to the correct remote repo in the intended github account.
+						- After adding, you may use the below command again to see the available remotes
+							git remote -v
+
+
+
+					step 3:
+						- We can now push the code changes from local-repo to remote-repo.
+						- Only when pushing the code for the first time after setting the remote, we must use either of the below command
+								git push --set-upstream [remote-alias] [my-local-branch]
+								(or)
+								git push -u [remote-alias] [my-local-branch]
+						- We can simply use the below commands from the second-time onwards
+								git push [remote-alias] [my-local-branch]				
+								 (may require to enter GitHub credentials if prompted)
+				- Now, head over to the GitHub account and you'll find your local machine's code-base contents.
+				- 
+
+
+
+
+		IV) CREATING NEW BRANCHES & TRAVERSING ACROSS THEM
+				- first, to learn no. of branches (& to find the current branch that you are operating in), type the below command
+					git branch
+				- It may not be ideal to directly push code regularly into the master/main branch.
+				- Hence, its a good practice to create a new branch locally for testing the new code.
+				- If its bug free & approved, then we can switch to the master/main branch and push the code.
+					
+				- To create a brand new branch:
+					git branch mybranch			
+							( - creates a new branch "mybranch", copies all content of current branch "master")
+							( - the HEAD of "master" is same as HEAD of "mybranch")
+					git checkout mybranch		
+							(switch/traverse to an existing branch "mybranch" when we are in another active branch "master")
+				- To create a new branch & switch into it in one step:
+					git checkout -b feature		
+							(creates a new branch "feature", copies all content of current branch "master" to it & then switches to it)
+
+
+		V) DELETING BRANCHES
+				- Note that, we cannot delete a branch in which we are operating currently.
+				- We must switch to another branch in order to delete the current branch
+				- Lets say, in the following example, there are two branches "master", "feature". We can delete "feature" branch in the following manner.
+					git branch 					(to learn that you are currently in branch "feature")
+					git checkout master			(to move into the "master" branch)
+					git branch -d feature		(to delete "feature" branch)
+
+		VI) MERGING BRANCHES
+				- Merging is when we incorporate the changes made in a temporary/updated branch "feature" into the original/stable branch "master".
+				- If we merge branches that are identical, then it does nothing & simply says "already up to date"
+				- Lets say, we got two branches "master" & "feature".
+				- Here, "master" branch is the real deal & "feature" is for my testing.
+				- We must get into the "master" branch in order to merge some branch into it.
+				- In order to merge "feature" into "master" branch, do the following the ste
+					git branch 					(to know the current branch that we are operating on)
+					git checkout master			(to shift into "master" branch)
+					git merge feature			(merges the "feature" branch into "master" branch)
+
+		NOTE:
+			- You can find the HEAD from "git log"
+			- If the HEAD is pointing to same commit in two seperate branches ("mybranch" & "master")
+			- then, we can say that "mybranch" is an offshoot of the main branch "master"
+			- The root folder of the proj that we are working on can be referred as "working Tree"
+
+
+		VII) funky yet important
+				- we can see the history of our commits with the below command
+					git log
+				- using git log, you can see the commit history along with the commit Id (or commit hash) for each 
+				- To fall back to any of the previous commits (ie by omitting any additional commits after a specific commit)
+						step1: copy the commit ID of that commit which you want to make the latest one
+								(you may do this by running "git log" command & copying the desired commit Id)
+						step2: Run the following command (for simplicity, the actual commit ID is denoted as [commitId])
+								git checkout [commitId]
+						Note: Doing this may move the HEAD to the specified commit Id
+
